@@ -23,7 +23,7 @@ You can also use strings as a path:
 ```php
 $array = [];
 $data = new RecursiveAccessor($array);
-$data->set('a.b.c, 'test'); // equals $data['a']['b']['c'] = 'test';
+$data->set('a.b.c', 'test'); // equals $data['a']['b']['c'] = 'test';
 print_r($data->asArray());
 
 echo $data->getString('a.b.d', 'fallback'); // -> "fallback"
