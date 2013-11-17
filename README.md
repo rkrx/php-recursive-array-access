@@ -1,5 +1,5 @@
-php-recursive-array-access (PHP5.3+)
-====================================
+Recursive array access for PHP5.3+
+==================================
 
 Access recursive arrays through an easy interface
 
