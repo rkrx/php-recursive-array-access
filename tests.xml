@@ -1,0 +1,12 @@
+<phpunit bootstrap="inc/bootstrap.php"
+		 backupGlobals="false"
+		 backupStaticAttributes="false"
+		 strict="true"
+		 verbose="true"
+		 timeoutForSmallTests="5">
+	<testsuites>
+		<testsuite name="PHP Recursive Array Accessor">
+			<file>tests/Kir/Data/Arrays/RecursiveAccessorTest.php</file>
+		</testsuite>
+	</testsuites>
+</phpunit>

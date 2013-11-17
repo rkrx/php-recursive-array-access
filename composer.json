@@ -1,0 +1,15 @@
+{
+	"name": "rkr/recursive-array-accessor",
+	"description": "Access recursive arrays through an easy interface",
+	"minimum-stability": "stable",
+	"authors": [{
+		"name": "R. Kirschler",
+		"email": "ron.kirschler@gmail.com"
+	}],
+	"config": {
+		"vendor-dir": "composer"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "3.7.*"
+	}
+}
