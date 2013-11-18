@@ -1,52 +1,35 @@
 <?php
-namespace Kir\Data\Arrays;
+namespace Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
-/**
- * Class Data
- */
-class RecursiveAccessor {
+use Kir\Data\Arrays\RecursiveAccessor;
+
+class Accessor {
 	/**
 	 * @var array
 	 */
 	private $data = array();
 
 	/**
-	 * @var string
-	 */
-	private $separator = '';
-
-	/**
-	 * @var string
-	 */
-	private $escapeBy = '';
-
-	/**
 	 * @param array $data
-	 * @param string $separator
-	 * @param string $escapeBy
 	 */
-	public function __construct(array $data = array(), $separator = '.', $escapeBy = '\\') {
+	public function __construct(array $data = array()) {
 		$this->data = $data;
-		$this->separator = $separator;
-		$this->escapeBy = $escapeBy;
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @return bool
 	 */
-	public function has($path) {
-		$path = $this->extractPath($path);
+	public function has(array $path) {
 		return $this->hasPath($this->data, $path);
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function get($path, $default = null) {
-		$path = $this->extractPath($path);
+	public function get(array $path, $default = null) {
 		if ($this->hasPath($this->data, $path)) {
 			return $this->getFromPath($this->data, $path);
 		}
@@ -54,12 +37,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param int $default
 	 * @return int
 	 */
-	public function getBool($path, $default = 0) {
-		$path = $this->extractPath($path);
+	public function getBool(array $path, $default = 0) {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(is_array($result)) {
@@ -71,12 +53,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param int $default
 	 * @return int
 	 */
-	public function getInt($path, $default = 0) {
-		$path = $this->extractPath($path);
+	public function getInt(array $path, $default = 0) {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(is_array($result)) {
@@ -88,12 +69,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param float $default
 	 * @return float
 	 */
-	public function getFloat($path, $default = 0.0) {
-		$path = $this->extractPath($path);
+	public function getFloat(array $path, $default = 0.0) {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(is_array($result)) {
@@ -105,12 +85,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param string $default
 	 * @return string
 	 */
-	public function getString($path, $default = '') {
-		$path = $this->extractPath($path);
+	public function getString(array $path, $default = '') {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(is_array($result)) {
@@ -122,12 +101,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param array $default
 	 * @return array
 	 */
-	public function getArray($path, $default = array()) {
-		$path = $this->extractPath($path);
+	public function getArray(array $path, $default = array()) {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(!is_array($result)) {
@@ -139,10 +117,10 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @return static[]
 	 */
-	public function getChildren($path) {
+	public function getChildren(array $path) {
 		$result = array();
 		$array = $this->getArray($path);
 		foreach($array as $key => $value) {
@@ -152,12 +130,11 @@ class RecursiveAccessor {
 	}
 
 	/**
-	 * @param string[]|string $path
+	 * @param string[] $path
 	 * @param mixed $value
 	 * @return $this
 	 */
-	public function set($path, $value) {
-		$path = $this->extractPath($path);
+	public function set(array $path, $value) {
 		$this->data = $this->setAsPath($this->data, $path, $value);
 		return $this;
 	}
@@ -227,41 +204,5 @@ class RecursiveAccessor {
 			$data[$key] = $value;
 		}
 		return $data;
-	}
-
-	/**
-	 * @param string[]|string $path
-	 * @throws \InvalidArgumentException
-	 * @return array
-	 */
-	private function extractPath($path) {
-		if (is_array($path)) {
-			return $path;
-		} elseif (is_string($path)) {
-			return $this->extractString($path);
-		}
-		throw new \InvalidArgumentException("Expected \$path to by either array or string!");
-	}
-
-	/**
-	 * @param string $string
-	 * @return array
-	 */
-	private function extractString($string) {
-		$result = array();
-		$last = $pos = 0;
-		while (true) {
-			$pos = strpos($string, $this->separator, max($last, $pos));
-			if ($pos > 0 && $string[$pos - 1] === $this->escapeBy) {
-				$pos++;
-				continue;
-			}
-			if ($pos === false) {
-				$result[] = substr($string, $last);
-				return $result;
-			}
-			$result[] = substr($string, $last, $pos - $last);
-			$last = $pos + 1;
-		}
 	}
 } 

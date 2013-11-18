@@ -6,7 +6,8 @@
 		 timeoutForSmallTests="5">
 	<testsuites>
 		<testsuite name="PHP Recursive Array Accessor">
-			<file>tests/Kir/Data/Arrays/RecursiveAccessorTest.php</file>
+			<file>tests/Kir/Data/Arrays/RecursiveAccessor/ArrayPath/AccessorTest.php</file>
+			<file>tests/Kir/Data/Arrays/RecursiveAccessor/StringPath/AccessorTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>
