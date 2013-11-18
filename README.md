@@ -3,8 +3,7 @@ Recursive array access for PHP5.3+
 
 Access recursive arrays through an easy interface
 
-Why, what?
-----------
+## Why, what?
 
 Example:
 
@@ -30,8 +29,15 @@ echo $data->getString('a.b.d', 'fallback'); // -> "fallback"
 print_r($data->getArray('a.b.d', ['fallback'])); // -> ["fallback"]
 ```
 
-Interface
----------
+## Composer:
+
+```
+"require": [
+	"rkr/recursive-array-accessor": "1.*"
+]
+```
+
+## Interface
 
 ```php
 class RecursiveAccessor {
