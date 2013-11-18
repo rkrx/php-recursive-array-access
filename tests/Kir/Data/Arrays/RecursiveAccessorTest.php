@@ -73,6 +73,15 @@ class RecursiveAccessorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('n'), $data->getArray('a.b.d', array('n')));
 	}
 
+	public function testGetChildren() {
+		$data = new RecursiveAccessor($this->testData2);
+		$children = $data->getChildren('a');
+		$this->assertCount(1, $children);
+		$this->assertArrayHasKey('b', $children);
+		$value = $children['b']->getString('c');
+		$this->assertEquals('d', $value);
+	}
+
 	public function testSet() {
 		$data = new RecursiveAccessor($this->testData);
 		$this->assertEquals('d', $data->get(array('a', 'b', 'c'), null));

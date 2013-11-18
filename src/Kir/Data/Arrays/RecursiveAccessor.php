@@ -140,6 +140,19 @@ class RecursiveAccessor {
 
 	/**
 	 * @param string[]|string $path
+	 * @return static[]
+	 */
+	public function getChildren($path) {
+		$result = array();
+		$array = $this->getArray($path);
+		foreach($array as $key => $value) {
+			$result[$key] = new static($value);
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string[]|string $path
 	 * @param mixed $value
 	 * @return $this
 	 */
