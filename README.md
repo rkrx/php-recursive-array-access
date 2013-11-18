@@ -91,6 +91,12 @@ class RecursiveAccessor {
 
 	/**
 	 * @param string[]|string $path
+	 * @return static[]
+	 */
+	public function getChildren($path);
+
+	/**
+	 * @param string[]|string $path
 	 * @param mixed $value
 	 * @return $this
 	 */
