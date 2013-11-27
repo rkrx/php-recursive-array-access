@@ -33,6 +33,6 @@ print_r($data->getArray('a.b.d', ['fallback'])); // -> ["fallback"]
 
 ```
 "require": [
-	"rkr/recursive-array-accessor": "1.*"
+	"rkr/recursive-array-accessor": "2.*"
 ]
 ```
