@@ -8,6 +8,7 @@ Access recursive arrays through an easy interface
 Example:
 
 ```php
+// PHP5.4-style array syntax
 $array = [];
 $data = new ArrayPath\Accessor($array);
 $data->set(['a', 'b', 'c'], 'test'); // equals $data['a']['b']['c'] = 'test';
