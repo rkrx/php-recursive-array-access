@@ -33,7 +33,7 @@ print_r($data->getArray('a.b.d', ['fallback'])); // -> ["fallback"]
 ## Composer:
 
 ```
-"require": [
-	"rkr/recursive-array-accessor": "2.*"
-]
+"require": [{
+    "rkr/recursive-array-accessor": "2.*"
+}]
 ```
