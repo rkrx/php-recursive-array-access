@@ -101,6 +101,15 @@ class Accessor {
 
 	/**
 	 * @param string $path
+	 * @return $this
+	 */
+	public function getNode($path) {
+		$array = $this->getArray($path);
+		return new static($array);
+	}
+
+	/**
+	 * @param string $path
 	 * @return static[]
 	 */
 	public function getChildren($path) {

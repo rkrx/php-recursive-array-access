@@ -69,6 +69,16 @@ class AccessorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('n'), $data->getArray('a.b.d', array('n')));
 	}
 
+	public function testGetNode() {
+		$data = new Accessor($this->testData);
+
+		$value = $data->getNode('a.b')->get('c');
+		$this->assertEquals('d', $value);
+
+		$value = $data->getNode('a.b')->get('d');
+		$this->assertEquals(null, $value);
+	}
+
 	public function testGetChildren() {
 		$data = new Accessor($this->testData2);
 		$children = $data->getChildren('a');

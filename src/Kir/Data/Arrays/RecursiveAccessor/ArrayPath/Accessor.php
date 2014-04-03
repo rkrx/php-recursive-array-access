@@ -117,6 +117,15 @@ class Accessor {
 	}
 
 	/**
+	 * @param array $path
+	 * @return $this
+	 */
+	public function getNode(array $path) {
+		$array = $this->getArray($path);
+		return new static($array);
+	}
+
+	/**
 	 * @param string[] $path
 	 * @return static[]
 	 */
