@@ -3,9 +3,9 @@ namespace Kir\Data\Arrays\RecursiveAccessor\StringPath;
 
 use Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
-class Accessor {
+class Map {
 	/**
-	 * @var ArrayPath\Accessor
+	 * @var ArrayPath\Map
 	 */	
 	private $delegate=null;
 
@@ -25,7 +25,7 @@ class Accessor {
 	 * @param string $escapeBy
 	 */
 	public function __construct(array $data = array(), $separator = '.', $escapeBy = '\\') {
-		$this->delegate = new ArrayPath\Accessor($data, $separator, $escapeBy);
+		$this->delegate = new ArrayPath\Map($data);
 		$this->separator = $separator;
 		$this->escapeBy = $escapeBy;
 	}

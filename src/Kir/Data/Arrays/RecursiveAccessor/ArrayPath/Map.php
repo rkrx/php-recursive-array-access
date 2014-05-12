@@ -3,7 +3,7 @@ namespace Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
 use Kir\Data\Arrays\RecursiveAccessor;
 
-class Accessor {
+class Map {
 	/**
 	 * @var array
 	 */
