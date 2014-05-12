@@ -12,7 +12,7 @@ Example:
 ```php
 // PHP5.4-style array syntax
 $array = [];
-$data = new ArrayPath\Accessor($array);
+$data = new ArrayPath\Map($array);
 $data->set(['a', 'b', 'c'], 'test'); // equals $data['a']['b']['c'] = 'test';
 print_r($data->asArray());
 
@@ -24,7 +24,7 @@ You can also use strings as a path:
 
 ```php
 $array = [];
-$data = new StringPath\Accessor($array);
+$data = new StringPath\Map($array);
 $data->set('a.b.c', 'test'); // equals $data['a']['b']['c'] = 'test';
 print_r($data->asArray());
 
@@ -36,6 +36,6 @@ print_r($data->getArray('a.b.d', ['fallback'])); // -> ["fallback"]
 
 ```
 "require": [{
-    "rkr/recursive-array-accessor": "2.*"
+    "rkr/recursive-array-accessor": "~3"
 }]
 ```
