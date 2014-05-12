@@ -1,6 +1,8 @@
 Recursive array access for PHP5.3+
 ==================================
 
+[![Build Status](https://travis-ci.org/rkrx/php-recursive-array-access.svg?branch=2.0.1)](https://travis-ci.org/rkrx/php-recursive-array-access)
+
 Access n-dimensional arrays through an easy interface
 
 ## Why, what?
