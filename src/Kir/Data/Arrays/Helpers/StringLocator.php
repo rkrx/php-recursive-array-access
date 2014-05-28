@@ -9,7 +9,7 @@ class StringLocator {
 	 * @param string $escapeBy
 	 * @return bool
 	 */
-	public function has(array $array, $path, $separator = '.', $escapeBy = '\\') {
+	public static function has(array $array, $path, $separator = '.', $escapeBy = '\\') {
 		$arrayPath = self::convert($path, $separator, $escapeBy);
 		return ArrayLocator::has($array, $arrayPath);
 	}
