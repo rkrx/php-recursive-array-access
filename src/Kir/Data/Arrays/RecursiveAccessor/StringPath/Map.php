@@ -1,6 +1,9 @@
 <?php
 namespace Kir\Data\Arrays\RecursiveAccessor\StringPath;
 
+use Exception;
+use InvalidArgumentException;
+use Kir\Data\Arrays\Helpers\StringPathToArrayPathConverter;
 use Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
 class Map {
@@ -23,8 +26,15 @@ class Map {
 	 * @param array $data
 	 * @param string $separator
 	 * @param string $escapeBy
+	 * @throws Exception
 	 */
 	public function __construct(array $data = array(), $separator = '.', $escapeBy = '\\') {
+		if(strlen($separator) < 1) {
+			throw new Exception('Invalid $separator');
+		}
+		if(strlen($separator) < 1) {
+			throw new Exception('Invalid $escapeBy');
+		}
 		$this->delegate = new ArrayPath\Map($data);
 		$this->separator = $separator;
 		$this->escapeBy = $escapeBy;
@@ -142,37 +152,15 @@ class Map {
 
 	/**
 	 * @param string[]|string $path
-	 * @throws \InvalidArgumentException
-	 * @return array
+	 * @throws InvalidArgumentException
+	 * @return string[]
 	 */
 	private function extractPath($path) {
 		if (is_array($path)) {
 			return $path;
 		} elseif (is_string($path)) {
-			return $this->extractString($path);
+			return StringPathToArrayPathConverter::convert($path, $this->separator, $this->escapeBy);
 		}
-		throw new \InvalidArgumentException("Expected \$path to by either array or string!");
+		throw new InvalidArgumentException('Expected $path to by either array or string!');
 	}
-
-	/**
-	 * @param string $string
-	 * @return array
-	 */
-	private function extractString($string) {
-		$result = array();
-		$last = $pos = 0;
-		while (true) {
-			$pos = strpos($string, $this->separator, max($last, $pos));
-			if ($pos > 0 && $string[$pos - 1] === $this->escapeBy) {
-				$pos++;
-				continue;
-			}
-			if ($pos === false) {
-				$result[] = substr($string, $last);
-				return $result;
-			}
-			$result[] = substr($string, $last, $pos - $last);
-			$last = $pos + 1;
-		}
-	}
-} 
+}
