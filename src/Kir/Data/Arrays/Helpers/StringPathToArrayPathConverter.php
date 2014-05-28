@@ -12,7 +12,7 @@ class StringPathToArrayPathConverter {
 		if(!strpos($path, $escapeBy)) {
 			return explode($separator, $path);
 		}
-		$tokens = self::split($path, [$separator, $escapeBy]);
+		$tokens = self::split($path, array($separator, $escapeBy));
 		$result = self::separate($tokens, $separator, $escapeBy);
 		return $result;
 	}
