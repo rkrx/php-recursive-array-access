@@ -22,7 +22,7 @@ class StringLocator {
 	 * @param string $escapeBy
 	 * @return mixed
 	 */
-	public static function get(array $array, array $path, $default = null, $separator = '.', $escapeBy = '\\') {
+	public static function get(array $array, $path, $default = null, $separator = '.', $escapeBy = '\\') {
 		$arrayPath = self::convert($path, $separator, $escapeBy);
 		return ArrayLocator::get($array, $arrayPath, $default);
 	}
@@ -35,7 +35,7 @@ class StringLocator {
 	 * @param string $escapeBy
 	 * @return array
 	 */
-	public static function set(array $array, array $path, $value, $separator = '.', $escapeBy = '\\') {
+	public static function set(array $array, $path, $value, $separator = '.', $escapeBy = '\\') {
 		$arrayPath = self::convert($path, $separator, $escapeBy);
 		return ArrayLocator::set($array, $arrayPath, $value);
 	}
@@ -47,7 +47,7 @@ class StringLocator {
 	 * @param string $escapeBy
 	 * @return array
 	 */
-	public static function remove(array $array, array $path, $separator = '.', $escapeBy = '\\') {
+	public static function remove(array $array, $path, $separator = '.', $escapeBy = '\\') {
 		$arrayPath = self::convert($path, $separator, $escapeBy);
 		return ArrayLocator::remove($array, $arrayPath);
 	}
