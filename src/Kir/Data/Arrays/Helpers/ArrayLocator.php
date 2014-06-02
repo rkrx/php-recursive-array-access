@@ -1,6 +1,8 @@
 <?php
 namespace Kir\Data\Arrays\Helpers;
 
+use ArrayAccess;
+
 class ArrayLocator {
 	/**
 	 * @param array $array
@@ -8,40 +10,39 @@ class ArrayLocator {
 	 * @return bool
 	 */
 	public static function has(array $array, array $path) {
-		if (!count($path)) {
+		$count = count($path);
+		if (!$count) {
 			return false;
 		}
-		$value = $array;
-		while (count($path)) {
-			$key = array_shift($path);
-			if (!(is_array($value) && array_key_exists($key, $value))) {
+		for($idx = 0; $idx < $count; $idx++) {
+			$part = $path[$idx];
+			if(!self::keyExists($array, $part)) {
 				return false;
 			}
-			$value = $value[$key];
+			$array = $array[$part];
 		}
 		return true;
 	}
 
 	/**
-	 * @param array $array
+	 * @param array|ArrayAccess $array
 	 * @param string[] $path
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function get(array $array, array $path, $default = null) {
-		$key = array_shift($path);
-		$value = null;
-		if (array_key_exists($key, $array)) {
-			$value = $array[$key];
-			if (count($path)) {
-				if (is_array($value)) {
-					$value = self::get($value, $path);
-				} else {
-					return null;
-				}
-			}
+	public static function get($array, array $path, $default = null) {
+		$count = count($path);
+		if (!$count) {
+			return $default;
 		}
-		return $value;
+		for($idx = 0; $idx < $count; $idx++) {
+			$part = $path[$idx];
+			if(!self::keyExists($array, $part)) {
+				return $default;
+			}
+			$array = $array[$part];
+		}
+		return $array;
 	}
 
 	/**
@@ -89,5 +90,17 @@ class ArrayLocator {
 			}
 		}
 		return $array;
+	}
+
+	/**
+	 * @param array|ArrayAccess $array
+	 * @param string $key
+	 * @return bool
+	 */
+	private static function keyExists($array, $key) {
+		if(!is_array($array) && !($array instanceof ArrayAccess)) {
+			return false;
+		}
+		return array_key_exists($key, $array);
 	}
 }
