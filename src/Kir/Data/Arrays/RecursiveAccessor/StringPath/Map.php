@@ -7,21 +7,15 @@ use Kir\Data\Arrays\Helpers\StringPathToArrayPathConverter;
 use Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
 class Map {
-	/**
-	 * @var ArrayPath\Map
-	 */	
+	/** @var ArrayPath\Map */
 	private $delegate=null;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $separator = '';
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $escapeBy = '';
-
+	/** @var callable[] */
+	private $listeners = [];
+	
 	/**
 	 * @param array $data
 	 * @param string $separator
@@ -39,7 +33,7 @@ class Map {
 		$this->separator = $separator;
 		$this->escapeBy = $escapeBy;
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @return bool
@@ -48,7 +42,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->has($path);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param mixed $default
@@ -58,7 +52,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->get($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param int $default
@@ -68,7 +62,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->getBool($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param int $default
@@ -78,7 +72,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->getInt($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param float $default
@@ -88,7 +82,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->getFloat($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param string $default
@@ -98,7 +92,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->getString($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @param array $default
@@ -108,7 +102,7 @@ class Map {
 		$path = $this->extractPath($path);
 		return $this->delegate->getArray($path, $default);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @return $this
@@ -117,7 +111,7 @@ class Map {
 		$array = $this->getArray($path);
 		return new static($array);
 	}
-
+	
 	/**
 	 * @param string $path
 	 * @return static[]
@@ -131,7 +125,7 @@ class Map {
 		}
 		return $result;
 	}
-
+	
 	/**
 	 * @param string[]|string $path
 	 * @param mixed $value
@@ -140,16 +134,29 @@ class Map {
 	public function set($path, $value) {
 		$path = $this->extractPath($path);
 		$this->delegate->set($path, $value);
+		$array = $this->asArray();
+		foreach($this->listeners as $listener) {
+			call_user_func($listener, $array, $path);
+		}
 		return $this;
 	}
-
+	
 	/**
 	 * @return array
 	 */
 	public function asArray() {
 		return $this->delegate->asArray();
 	}
-
+	
+	/**
+	 * @param callable $fn
+	 * @return $this
+	 */
+	public function onChange($fn) {
+		$this->listeners[] = $fn;
+		return $this;
+	}
+	
 	/**
 	 * @param string[]|string $path
 	 * @throws InvalidArgumentException
