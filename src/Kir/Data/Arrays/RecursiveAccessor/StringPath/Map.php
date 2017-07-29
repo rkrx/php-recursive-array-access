@@ -14,7 +14,7 @@ class Map {
 	/** @var string */
 	private $escapeBy = '';
 	/** @var callable[] */
-	private $listeners = [];
+	private $listeners = array();
 	
 	/**
 	 * @param array $data
