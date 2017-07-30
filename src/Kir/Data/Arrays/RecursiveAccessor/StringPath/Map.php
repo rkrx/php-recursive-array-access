@@ -14,7 +14,7 @@ class Map {
 	/** @var string */
 	private $escapeBy = '';
 	/** @var callable[] */
-	private $listeners = array();
+	private $listeners = [];
 	
 	/**
 	 * @param array $data
@@ -35,7 +35,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @return bool
 	 */
 	public function has($path) {
@@ -44,7 +44,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param mixed $default
 	 * @return mixed
 	 */
@@ -54,7 +54,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param int $default
 	 * @return int
 	 */
@@ -64,7 +64,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param int $default
 	 * @return int
 	 */
@@ -74,7 +74,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param float $default
 	 * @return float
 	 */
@@ -84,7 +84,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param string $default
 	 * @return string
 	 */
@@ -94,7 +94,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @param array $default
 	 * @return array
 	 */
@@ -104,7 +104,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @return $this
 	 */
 	public function getNode($path) {
@@ -113,7 +113,7 @@ class Map {
 	}
 	
 	/**
-	 * @param string $path
+	 * @param string[]|string $path
 	 * @return static[]
 	 */
 	public function getChildren($path) {
@@ -134,10 +134,16 @@ class Map {
 	public function set($path, $value) {
 		$path = $this->extractPath($path);
 		$this->delegate->set($path, $value);
-		$array = $this->asArray();
-		foreach($this->listeners as $listener) {
-			call_user_func($listener, $array, $path);
-		}
+		return $this;
+	}
+	
+	/**
+	 * @param string[]|string $path
+	 * @return $this
+	 */
+	public function remove($path) {
+		$path = $this->extractPath($path);
+		$this->delegate->remove($path);
 		return $this;
 	}
 	
@@ -153,7 +159,7 @@ class Map {
 	 * @return $this
 	 */
 	public function onChange($fn) {
-		$this->listeners[] = $fn;
+		$this->delegate->onChange($fn);
 		return $this;
 	}
 	
