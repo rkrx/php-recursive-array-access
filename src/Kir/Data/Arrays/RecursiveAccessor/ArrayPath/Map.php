@@ -4,10 +4,10 @@ namespace Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 use Kir\Data\Arrays\RecursiveAccessor;
 
 class Map {
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $data = array();
+	/** @var callable[] */
+	private $listeners = [];
 
 	/**
 	 * @param array $data
@@ -145,6 +145,27 @@ class Map {
 	 */
 	public function set(array $path, $value) {
 		$this->data = $this->setAsPath($this->data, $path, $value);
+		$array = $this->asArray();
+		foreach($this->listeners as $listener) {
+			call_user_func($listener, $array, []);
+		}
+		return $this;
+	}
+	
+	/**
+	 * @param string[] $path
+	 * @return $this
+	 * @throws \Exception
+	 */
+	public function remove(array $path) {
+		if(count($path) < 1) {
+			throw new \Exception('Path is empty');
+		}
+		$this->data = $this->removeFromPath($this->data, $path);
+		$array = $this->asArray();
+		foreach($this->listeners as $listener) {
+			call_user_func($listener, $array, []);
+		}
 		return $this;
 	}
 
@@ -153,6 +174,15 @@ class Map {
 	 */
 	public function asArray() {
 		return $this->data;
+	}
+	
+	/**
+	 * @param callable $fn
+	 * @return $this
+	 */
+	public function onChange($fn) {
+		$this->listeners[] = $fn;
+		return $this;
 	}
 
 	/**
@@ -200,7 +230,7 @@ class Map {
 	 * @param string[] $data
 	 * @param array $path
 	 * @param mixed $value
-	 * @return mixed
+	 * @return array
 	 */
 	private function setAsPath(array $data, array $path, $value) {
 		$key = array_shift($path);
@@ -214,4 +244,20 @@ class Map {
 		}
 		return $data;
 	}
-} 
+	
+	/**
+	 * @param array $data
+	 * @param array $path
+	 * @return array
+	 */
+	private function removeFromPath(array $data, array $path) {
+		$part = array_shift($path);
+		if(array_key_exists($part, $data)) {
+			if(count($path)) {
+				return $this->removeFromPath($data, $path);
+			}
+			unset($data[$part]);
+		}
+		return $data;
+	}
+}
