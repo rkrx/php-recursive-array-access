@@ -4,15 +4,24 @@
 	"description": "Access recursive arrays through an easy interface",
 	"minimum-stability": "stable",
 	"authors": [{
-		"name": "R. Kirschler",
+		"name": "Ron Kirschler",
 		"email": "ron.kirschler@gmail.com"
 	}],
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*"
 	},
 	"autoload": {
-		"psr-0": {
+		"files": [
+			"src/functions.php"
+		],
+		"psr-4": {
 			"Kir\\Data\\Arrays\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"raa\\": "tests/",
+			"Kir\\Data\\Arrays\\": "tests/"
 		}
 	}
 }
