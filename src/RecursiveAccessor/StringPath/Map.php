@@ -26,7 +26,7 @@ class Map {
 		if(strlen($separator) < 1) {
 			throw new Exception('Invalid $separator');
 		}
-		if(strlen($separator) < 1) {
+		if(strlen($escapeBy) < 1) {
 			throw new Exception('Invalid $escapeBy');
 		}
 		$this->delegate = new ArrayPath\Map($data);
