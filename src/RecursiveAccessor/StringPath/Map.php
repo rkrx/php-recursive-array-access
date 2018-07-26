@@ -5,6 +5,7 @@ use Exception;
 use InvalidArgumentException;
 use Kir\Data\Arrays\Helpers\StringPathToArrayPathConverter;
 use Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
+use RuntimeException;
 
 class Map {
 	/** @var ArrayPath\Map */
@@ -13,8 +14,6 @@ class Map {
 	private $separator = '';
 	/** @var string */
 	private $escapeBy = '';
-	/** @var callable[] */
-	private $listeners = [];
 	
 	/**
 	 * @param array $data
@@ -24,10 +23,10 @@ class Map {
 	 */
 	public function __construct(array $data = array(), $separator = '.', $escapeBy = '\\') {
 		if(strlen($separator) < 1) {
-			throw new Exception('Invalid $separator');
+			throw new RuntimeException('Invalid $separator');
 		}
 		if(strlen($escapeBy) < 1) {
-			throw new Exception('Invalid $escapeBy');
+			throw new RuntimeException('Invalid $escapeBy');
 		}
 		$this->delegate = new ArrayPath\Map($data);
 		$this->separator = $separator;

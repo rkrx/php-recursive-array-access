@@ -1,7 +1,9 @@
 <?php
 namespace Kir\Data\Arrays\Helpers;
 
-class StringPathToArrayPathConverterTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StringPathToArrayPathConverterTest extends TestCase {
 	public function testConvert() {
 		$path = StringPathToArrayPathConverter::convert('this.is.a.test', '.', '\\');
 		$this->assertEquals(array('this', 'is', 'a', 'test'), $path);

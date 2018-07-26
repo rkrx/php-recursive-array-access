@@ -1,9 +1,9 @@
 <?php
 namespace raa;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FunctionsTest extends PHPUnit_Framework_TestCase {
+class FunctionsTest extends TestCase {
 	public function testHasWithArrayStructureAndArrayPath() {
 		$this->assertEquals(true, has(['a' => ['b' => ['c' => 123]]], ['a', 'b', 'c']));
 		$this->assertEquals(false, has(['a' => ['b' => ['c' => 123]]], ['a', 'b', 'd']));

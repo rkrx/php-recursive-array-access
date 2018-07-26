@@ -1,7 +1,9 @@
 <?php
 namespace Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 
-class AccessorTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class AccessorTest extends TestCase {
 	private $testData = array(
 		'a' => array(
 			'b' => array(

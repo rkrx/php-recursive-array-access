@@ -8,7 +8,7 @@
 		"email": "ron.kirschler@gmail.com"
 	}],
 	"require-dev": {
-		"phpunit/phpunit": "3.7.*"
+		"phpunit/phpunit": "6.*"
 	},
 	"autoload": {
 		"files": [
@@ -23,5 +23,8 @@
 			"raa\\": "tests/",
 			"Kir\\Data\\Arrays\\": "tests/"
 		}
+	},
+	"scripts": {
+		"tests": "phpunit -c tests.xml"
 	}
 }

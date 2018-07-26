@@ -1,7 +1,9 @@
 <?php
 namespace Kir\Data\Arrays\Helpers;
 
-class ArrayLocatorTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ArrayLocatorTest extends TestCase {
 	public function testHas() {
 		$data = array('a' => 'b', 'c' => array('d' => array('e' => 'f')));
 		$this->assertTrue(ArrayLocator::has($data, array('c', 'd', 'e')));
