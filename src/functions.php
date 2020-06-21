@@ -30,8 +30,6 @@ function has($structure, $path) {
 				}
 				return true;
 			}
-		} else {
-			throw new RuntimeException("Invalid type: " . gettype($structure));
 		}
 	}
 	return false;
