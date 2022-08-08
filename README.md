@@ -1,4 +1,4 @@
-Recursive array access for PHP5.3+
+Recursive array access for PHP5.6+
 ==================================
 
 [![Build Status](https://travis-ci.org/rkrx/php-recursive-array-access.svg?branch=master)](https://travis-ci.org/rkrx/php-recursive-array-access)

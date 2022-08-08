@@ -1,4 +1,12 @@
-/.idea
-/atlassian-ide-plugin.xml
-/composer.lock
-/vendor
+/*
+!/src
+!/src-leg
+!/tests
+!/tests-leg
+!/.gitignore
+!/.travis.yml
+!/composer.json
+!/LICENSE
+!/phpstan.neon
+!/README.md
+!/tests.xml

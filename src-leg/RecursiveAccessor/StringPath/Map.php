@@ -7,6 +7,9 @@ use Kir\Data\Arrays\Helpers\StringPathToArrayPathConverter;
 use Kir\Data\Arrays\RecursiveAccessor\ArrayPath;
 use RuntimeException;
 
+/**
+ * @template T of array<mixed, mixed>
+ */
 class Map {
 	/** @var ArrayPath\Map */
 	private $delegate=null;
@@ -16,21 +19,21 @@ class Map {
 	private $escapeBy = '';
 	
 	/**
-	 * @param array $data
-	 * @param string $separator
-	 * @param string $escapeBy
+	 * @param T $data
+	 * @param null|string $separator
+	 * @param null|string $escapeBy
 	 * @throws Exception
 	 */
-	public function __construct(array $data = array(), $separator = '.', $escapeBy = '\\') {
-		if(strlen($separator) < 1) {
+	public function __construct(array $data = [], $separator = '.', $escapeBy = '\\') {
+		if(strlen((string) $separator) < 1) {
 			throw new RuntimeException('Invalid $separator');
 		}
-		if(strlen($escapeBy) < 1) {
+		if(strlen((string) $escapeBy) < 1) {
 			throw new RuntimeException('Invalid $escapeBy');
 		}
 		$this->delegate = new ArrayPath\Map($data);
-		$this->separator = $separator;
-		$this->escapeBy = $escapeBy;
+		$this->separator = (string) $separator;
+		$this->escapeBy = (string) $escapeBy;
 	}
 	
 	/**
@@ -53,11 +56,12 @@ class Map {
 	}
 	
 	/**
+	 * @template D
 	 * @param string[]|string $path
-	 * @param int $default
-	 * @return int
+	 * @param D $default
+	 * @return bool|D
 	 */
-	public function getBool($path, $default = 0) {
+	public function getBool($path, $default = false) {
 		$path = $this->extractPath($path);
 		return $this->delegate->getBool($path, $default);
 	}
@@ -93,11 +97,12 @@ class Map {
 	}
 	
 	/**
+	 * @template D
 	 * @param string[]|string $path
-	 * @param array $default
-	 * @return array
+	 * @param D $default
+	 * @return array<mixed, mixed>|D
 	 */
-	public function getArray($path, $default = array()) {
+	public function getArray($path, $default = []) {
 		$path = $this->extractPath($path);
 		return $this->delegate->getArray($path, $default);
 	}
@@ -147,7 +152,7 @@ class Map {
 	}
 	
 	/**
-	 * @return array
+	 * @return array<mixed, mixed>
 	 */
 	public function asArray() {
 		return $this->delegate->asArray();
@@ -170,9 +175,12 @@ class Map {
 	private function extractPath($path) {
 		if (is_array($path)) {
 			return $path;
-		} elseif (is_string($path)) {
+		}
+		
+		if (is_string($path)) {
 			return StringPathToArrayPathConverter::convert($path, $this->separator, $this->escapeBy);
 		}
+		
 		throw new InvalidArgumentException('Expected $path to by either array or string!');
 	}
 }

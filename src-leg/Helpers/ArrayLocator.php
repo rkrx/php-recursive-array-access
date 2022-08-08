@@ -1,4 +1,5 @@
 <?php
+
 namespace Kir\Data\Arrays\Helpers;
 
 use ArrayAccess;
@@ -11,7 +12,7 @@ class ArrayLocator {
 	 */
 	public static function has(array $array, array $path) {
 		$count = count($path);
-		if (!$count) {
+		if(!$count) {
 			return false;
 		}
 		for($idx = 0; $idx < $count; $idx++) {
@@ -23,16 +24,18 @@ class ArrayLocator {
 		}
 		return true;
 	}
-
+	
 	/**
-	 * @param array|ArrayAccess $array
+	 * @template T of array|ArrayAccess
+	 * @template D
+	 * @param T $array
 	 * @param string[] $path
-	 * @param mixed $default
-	 * @return mixed
+	 * @param D $default
+	 * @return mixed|D
 	 */
 	public static function get($array, array $path, $default = null) {
 		$count = count($path);
-		if (!$count) {
+		if(!$count) {
 			return $default;
 		}
 		for($idx = 0; $idx < $count; $idx++) {
@@ -44,26 +47,36 @@ class ArrayLocator {
 		}
 		return $array;
 	}
-
+	
 	/**
-	 * @param array $array
+	 * @template T of (array<mixed, mixed>|ArrayAccess<mixed, mixed>)
+	 * @template D
+	 * @param T $array
 	 * @param string[] $path
-	 * @param mixed $value
-	 * @return array
+	 * @param D $value
+	 * @return T
 	 */
 	public static function set(array $array, array $path, $value) {
-		$key = array_shift($path);
-		if (!array_key_exists($key, $array)) {
-			$data[$key] = array();
+		if(!count($path)) {
+			return $array;
 		}
-		if (count($path)) {
-			$data[$key] = self::set($array[$key], $path, $value);
+		$key = array_shift($path);
+		if(!array_key_exists($key, $array)) {
+			$data[$key] = [];
+		}
+		if(count($path)) {
+			$innerArray = $array[$key];
+			if(!is_array($innerArray)) {
+				$innerArray = [];
+			}
+			$data[$key] = self::set($innerArray, $path, $value);
 		} else {
 			$data[$key] = $value;
 		}
+		/** @var T $data */
 		return $data;
 	}
-
+	
 	/**
 	 * Run into each level of recursion until the last key was found, or until a key was missing at any level.
 	 * If the last key was found, it gets removed by unset()
@@ -73,7 +86,7 @@ class ArrayLocator {
 	 * @return array
 	 */
 	public static function remove(array $array, array $path) {
-		while (count($path)) { // Only try this while a valid path is given
+		while(count($path)) { // Only try this while a valid path is given
 			$key = array_shift($path); // Get the current key
 			if(array_key_exists($key, $array)) { // If the current key is present in the current recursion-level...
 				if(count($path)) { // After involving array_shift, the path could now be empty. If not...
@@ -91,7 +104,7 @@ class ArrayLocator {
 		}
 		return $array;
 	}
-
+	
 	/**
 	 * @param array|ArrayAccess $array
 	 * @param string $key

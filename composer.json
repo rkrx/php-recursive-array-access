@@ -8,23 +8,28 @@
 		"email": "ron.kirschler@gmail.com"
 	}],
 	"require-dev": {
-		"phpunit/phpunit": "6.*"
+		"php": ">= 5.6",
+
+		"phpunit/phpunit": "^9",
+		"phpstan/phpstan": "^1.8"
 	},
 	"autoload": {
 		"files": [
 			"src/functions.php"
 		],
 		"psr-4": {
-			"Kir\\Data\\Arrays\\": "src/"
+			"raa\\": "src/",
+			"Kir\\Data\\Arrays\\": "src-leg/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
 			"raa\\": "tests/",
-			"Kir\\Data\\Arrays\\": "tests/"
+			"Kir\\Data\\Arrays\\": "tests-leg/"
 		}
 	},
 	"scripts": {
-		"tests": "phpunit -c tests.xml"
+		"tests": "phpunit -c tests.xml",
+		"phpstan": "phpstan analyse -c phpstan.neon"
 	}
 }

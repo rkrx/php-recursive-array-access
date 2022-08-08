@@ -37,11 +37,12 @@ class Map {
 	}
 
 	/**
+	 * @template D
 	 * @param string[] $path
-	 * @param int $default
-	 * @return int
+	 * @param D $default
+	 * @return bool|D
 	 */
-	public function getBool(array $path, $default = 0) {
+	public function getBool(array $path, $default = false) {
 		if ($this->hasPath($this->data, $path)) {
 			$result = $this->getFromPath($this->data, $path);
 			if(is_array($result)) {
